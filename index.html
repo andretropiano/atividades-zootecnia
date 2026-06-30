@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Atividades Complementares — Zootecnia</title>
+<style>
+  :root{
+    --verde-escuro:#1f3d2b;
+    --verde-medio:#3a6b4a;
+    --verde-claro:#e9f1ea;
+    --teal:#2e6e6e;
+    --dourado:#c9a227;
+    --bege:#faf8f3;
+    --tinta:#1c2420;
+    --tinta-suave:#5b6a60;
+    --linha:#dadfd9;
+    --vermelho:#a4423a;
+    --display: 'Iowan Old Style','Georgia',serif;
+    --corpo: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'SFMono-Regular', Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bege);
+    color:var(--tinta);
+    font-family:var(--corpo);
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:980px;margin:0 auto;padding:28px 20px 80px;}
+
+  /* HEADER */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-bottom:18px;margin-bottom:26px;border-bottom:2px solid var(--verde-escuro);
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:40px;height:40px;border-radius:10px;
+    background:linear-gradient(135deg,var(--verde-escuro),var(--teal));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-family:var(--display);font-size:19px;font-weight:700;flex-shrink:0;
+  }
+  .brand-text .eyebrow{
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:600;
+  }
+  .brand-text h1{font-family:var(--display);font-size:21px;margin:2px 0 0;color:var(--verde-escuro);font-weight:700;}
+  .switch-role{
+    font-size:12.5px;color:var(--tinta-suave);background:none;border:1px solid var(--linha);
+    padding:7px 12px;border-radius:7px;cursor:pointer;font-family:var(--corpo);
+  }
+  .switch-role:hover{border-color:var(--verde-medio);color:var(--verde-escuro);}
+
+  /* LOGIN SCREEN */
+  .login-wrap{display:flex;justify-content:center;padding:50px 10px;}
+  .login-card{
+    max-width:420px;width:100%;background:#fff;border:1px solid var(--linha);
+    border-radius:14px;padding:34px 30px;box-shadow:0 1px 3px rgba(31,61,43,.06);
+  }
+  .login-card h2{font-family:var(--display);color:var(--verde-escuro);margin:0 0 6px;font-size:22px;}
+  .login-card p.sub{color:var(--tinta-suave);font-size:13.5px;margin:0 0 24px;line-height:1.5;}
+  .role-tabs{display:flex;gap:8px;margin-bottom:22px;}
+  .role-tab{
+    flex:1;padding:10px;text-align:center;border-radius:8px;border:1px solid var(--linha);
+    cursor:pointer;font-size:13.5px;color:var(--tinta-suave);font-weight:600;
+  }
+  .role-tab.active{background:var(--verde-escuro);color:#fff;border-color:var(--verde-escuro);}
+
+  label{display:block;font-size:12.5px;font-weight:600;color:var(--verde-escuro);margin:14px 0 6px;}
+  input,select,textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--linha);border-radius:8px;
+    font-size:14px;font-family:var(--corpo);background:#fff;color:var(--tinta);
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--verde-medio);box-shadow:0 0 0 3px rgba(58,107,74,.12);}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:11px 18px;border-radius:8px;border:none;font-size:14px;font-weight:600;
+    cursor:pointer;font-family:var(--corpo);
+  }
+  .btn-primary{background:var(--verde-escuro);color:#fff;width:100%;margin-top:22px;}
+  .btn-primary:hover{background:var(--verde-medio);}
+  .btn-ghost{background:none;border:1px solid var(--linha);color:var(--tinta);}
+  .btn-ghost:hover{border-color:var(--verde-medio);}
+  .btn-gold{background:var(--dourado);color:var(--verde-escuro);}
+  .btn-danger{background:#fff;color:var(--vermelho);border:1px solid var(--vermelho);}
+  .btn-danger:hover{background:var(--vermelho);color:#fff;}
+  .btn-sm{padding:7px 12px;font-size:12.5px;}
+  .err{color:var(--vermelho);font-size:12.5px;margin-top:10px;}
+
+  /* NAV TABS within role */
+  .nav-tabs{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--linha);}
+  .nav-tab{
+    padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--tinta-suave);
+    cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
+  }
+  .nav-tab.active{color:var(--verde-escuro);border-bottom-color:var(--dourado);}
+
+  /* CARD */
+  .card{
+    background:#fff;border:1px solid var(--linha);border-radius:12px;padding:24px;margin-bottom:18px;
+  }
+  .card h3{font-family:var(--display);color:var(--verde-escuro);margin:0 0 4px;font-size:18px;}
+  .card .desc{color:var(--tinta-suave);font-size:13px;margin:0 0 18px;}
+
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:640px){.row2{grid-template-columns:1fr;}}
+
+  .file-drop{
+    border:1.5px dashed var(--linha);border-radius:8px;padding:18px;text-align:center;
+    font-size:13px;color:var(--tinta-suave);cursor:pointer;
+  }
+  .file-drop.has-file{border-color:var(--verde-medio);background:var(--verde-claro);color:var(--verde-escuro);}
+
+  /* PROGRESS / STATS */
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+  @media(max-width:640px){.stat-grid{grid-template-columns:1fr;}}
+  .stat-box{background:#fff;border:1px solid var(--linha);border-radius:12px;padding:18px;}
+  .stat-num{font-family:var(--display);font-size:30px;color:var(--verde-escuro);font-weight:700;line-height:1;}
+  .stat-label{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--tinta-suave);margin-top:6px;font-weight:600;}
+
+  .bar-track{height:10px;border-radius:6px;background:var(--linha);overflow:hidden;margin:8px 0 4px;}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--verde-medio),var(--teal));border-radius:6px;}
+  .bar-fill.ok{background:linear-gradient(90deg,var(--verde-medio),var(--dourado));}
+
+  .cat-list{display:flex;flex-direction:column;gap:9px;}
+  .cat-row{display:flex;align-items:center;gap:10px;font-size:13px;}
+  .cat-name{flex:1;color:var(--tinta);}
+  .cat-vals{font-family:var(--mono);font-size:12px;color:var(--tinta-suave);min-width:70px;text-align:right;}
+  .cat-bar{flex:2;height:6px;border-radius:4px;background:var(--linha);overflow:hidden;}
+  .cat-bar-fill{height:100%;background:var(--teal);}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{
+    text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--tinta-suave);padding:8px 10px;border-bottom:1.5px solid var(--linha);font-weight:600;
+  }
+  td{padding:10px;border-bottom:1px solid var(--linha);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+
+  .badge{
+    display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;
+  }
+  .badge-pendente{background:#f6efd9;color:#8a6d10;}
+  .badge-aprovado{background:var(--verde-claro);color:var(--verde-escuro);}
+  .badge-recusado{background:#f6e2e0;color:var(--vermelho);}
+
+  .empty{
+    text-align:center;padding:40px 20px;color:var(--tinta-suave);font-size:13.5px;
+  }
+  .empty .ico{font-size:28px;margin-bottom:10px;}
+
+  /* MODAL */
+  .modal-bg{
+    position:fixed;inset:0;background:rgba(28,36,32,.45);display:flex;align-items:center;
+    justify-content:center;z-index:50;padding:20px;
+  }
+  .modal{
+    background:#fff;border-radius:14px;max-width:700px;width:100%;padding:28px;
+    max-height:85vh;overflow-y:auto;
+  }
+  .modal h3{font-family:var(--display);color:var(--verde-escuro);margin:0 0 16px;font-size:19px;}
+  .field-view{margin-bottom:10px;font-size:13.5px;}
+  .field-view b{color:var(--verde-escuro);display:inline-block;min-width:110px;}
+  .pdf-link{
+    display:inline-flex;align-items:center;gap:7px;color:var(--teal);font-weight:600;font-size:13.5px;
+    text-decoration:none;border:1px solid var(--teal);padding:8px 12px;border-radius:8px;margin-top:8px;
+  }
+  .pdf-link:hover{background:var(--verde-claro);}
+  .pdf-header{
+    display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:8px;
+  }
+  .pdf-filename{font-size:13px;color:var(--tinta);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .dl-icon{
+    flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
+    width:32px;height:32px;border-radius:7px;border:1px solid var(--teal);color:var(--teal);
+    text-decoration:none;font-size:15px;margin-left:10px;
+  }
+  .dl-icon:hover{background:var(--verde-claro);}
+  .pdf-frame{
+    width:100%;height:420px;border:1px solid var(--linha);border-radius:8px;background:#f4f4f2;
+  }
+  .modal-actions{display:flex;gap:10px;margin-top:22px;}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--verde-escuro);
+    color:#fff;padding:12px 20px;border-radius:8px;font-size:13.5px;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,.2);
+  }
+  .loading{text-align:center;padding:40px;color:var(--tinta-suave);font-size:13.5px;}
+  .small-note{font-size:11.5px;color:var(--tinta-suave);margin-top:6px;line-height:1.5;}
+  .filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .chip{
+    padding:6px 13px;border-radius:20px;border:1px solid var(--linha);font-size:12.5px;
+    cursor:pointer;color:var(--tinta-suave);font-weight:600;
+  }
+  .chip.active{background:var(--verde-escuro);color:#fff;border-color:var(--verde-escuro);}
+</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script>
+/* =====================================================================
+   COLE AQUI O ID DO CLIENTE OAUTH DO GOOGLE CLOUD (Passo 1 do tutorial)
+   Console Cloud > APIs e serviços > Credenciais > ID do cliente OAuth
+   ===================================================================== */
+const GOOGLE_CLIENT_ID = "1038295694568-s2gkog75odugku9m8jhkvlpvv39r1lfv.apps.googleusercontent.com";
+
+const DRIVE_SCOPES = "https://www.googleapis.com/auth/drive.file";
+let driveAccessToken = null;
+let driveTokenClient = null;
+
+function initDriveClient(){
+  if(!window.google || !GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'COLE_AQUI') return;
+  driveTokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: DRIVE_SCOPES,
+    callback: (resp) => {
+      if(resp.error){ console.error('Drive auth error:', resp); return; }
+      driveAccessToken = resp.access_token;
+      showToast('Google Drive conectado com sucesso!');
+    },
+  });
+}
+window.addEventListener('load', () => setTimeout(initDriveClient, 1500));
+
+async function getOrCreateDriveFolder(nome){
+  const searchResp = await fetch(
+    `https://www.googleapis.com/drive/v3/files?q=name='${nome}' and mimeType='application/vnd.google-apps.folder' and trashed=false`,
+    { headers: { Authorization: 'Bearer ' + driveAccessToken } }
+  );
+  const searchData = await searchResp.json();
+  if(searchData.files && searchData.files.length > 0) return searchData.files[0].id;
+  const createResp = await fetch('https://www.googleapis.com/drive/v3/files', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + driveAccessToken, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: nome, mimeType: 'application/vnd.google-apps.folder' }),
+  });
+  const createData = await createResp.json();
+  return createData.id;
+}
+
+async function uploadPdfToDrive(pdfUrl, nomeAluno, nomeArquivo){
+  if(!driveAccessToken) return false;
+  try{
+    // 1. Baixar o PDF do Firebase Storage via fetch (CORS já configurado)
+    console.log('[Drive] Baixando PDF de:', pdfUrl);
+    const pdfResp = await fetch(pdfUrl, { method: 'GET', mode: 'cors' });
+    if(!pdfResp.ok) throw new Error('Falha ao baixar PDF do Storage: ' + pdfResp.status);
+    const pdfBlob = await pdfResp.blob();
+    console.log('[Drive] PDF baixado, tamanho:', pdfBlob.size);
+
+    // 2. Criar ou localizar pasta no Drive
+    console.log('[Drive] Localizando pasta...');
+    const folderId = await getOrCreateDriveFolder('Atividades Complementares — Zootecnia');
+    if(!folderId) throw new Error('Não foi possível criar/localizar a pasta no Drive');
+    console.log('[Drive] Pasta ID:', folderId);
+
+    // 3. Fazer upload multipart para o Drive
+    const nomeNoArquivo = `${nomeAluno} — ${nomeArquivo}`;
+    const boundary = 'boundary_' + Date.now();
+    const metadataStr = JSON.stringify({ name: nomeNoArquivo, parents: [folderId] });
+
+    // Montar body manualmente para garantir compatibilidade
+    const encoder = new TextEncoder();
+    const metaPart = encoder.encode(
+      `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${metadataStr}\r\n`
+    );
+    const filePart = encoder.encode(`--${boundary}\r\nContent-Type: application/pdf\r\n\r\n`);
+    const endPart = encoder.encode(`\r\n--${boundary}--`);
+    const fileBytes = new Uint8Array(await pdfBlob.arrayBuffer());
+
+    const body = new Uint8Array(metaPart.length + filePart.length + fileBytes.length + endPart.length);
+    let offset = 0;
+    body.set(metaPart, offset); offset += metaPart.length;
+    body.set(filePart, offset); offset += filePart.length;
+    body.set(fileBytes, offset); offset += fileBytes.length;
+    body.set(endPart, offset);
+
+    console.log('[Drive] Enviando para o Drive...');
+    const uploadResp = await fetch(
+      'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + driveAccessToken,
+          'Content-Type': `multipart/related; boundary=${boundary}`,
+        },
+        body: body,
+      }
+    );
+    const uploadData = await uploadResp.json();
+    console.log('[Drive] Resposta:', uploadResp.status, uploadData);
+    return uploadResp.ok;
+  }catch(e){
+    console.error('[Drive] Erro detalhado:', e);
+    return false;
+  }
+}
+</script>
+
+<script>
+/* =====================================================================
+   COLE AQUI AS SUAS CREDENCIAIS DO FIREBASE (Passo 4 do tutorial)
+   Console do Firebase > Configurações do projeto > Seus apps > Web
+   ===================================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyCyoRG2z2cu-1S3TpFrQovPTmMOJZidXOo",
+  authDomain: "atividades-zootecnia.firebaseapp.com",
+  projectId: "atividades-zootecnia",
+  storageBucket: "atividades-zootecnia.firebasestorage.app",
+  messagingSenderId: "1038295694568",
+  appId: "1:1038295694568:web:b10a658a411b6836a35d5d"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const fbStorage = firebase.storage();
+</script>
+<div id="root" class="app"></div>
+
+<script>
+const CATEGORIAS = [
+  {nome:"Participação em eventos e palestras", teto:100},
+  {nome:"Viagens ou Visitas Técnicas", teto:80},
+  {nome:"Cursos de Extensão", teto:100},
+  {nome:"Disciplinas Optativas em outros cursos", teto:120},
+  {nome:"Monitoria", teto:120},
+  {nome:"Pesquisa Institucional", teto:80},
+  {nome:"Apresentação de trabalhos em eventos científicos", teto:80},
+  {nome:"Artigos Publicados", teto:120},
+  {nome:"Outras Atividades Didático-Pedagógicas Culturais e Comunitárias", teto:80},
+  {nome:"Estágio extracurricular", teto:120},
+  {nome:"Concursos de Monografias", teto:80},
+  {nome:"Projeto Experimental de consultoria", teto:100},
+  {nome:"Trabalhos de Análises Interdisciplinares", teto:100},
+  {nome:"Trabalhos de Conteúdo Específico", teto:80},
+];
+const HORAS_MINIMAS = 240;
+const MIN_CATEGORIAS = 3;
+const SENHA_COORDENADOR = "eduvale2026";
+
+// Cadastro de alunos: matrícula → {nome, anoIngresso}
+const ALUNOS_CADASTRADOS = {
+  // Turma 2025
+  "2411210": { nome: "Ana Júlia Machado de Souza", anoIngresso: "2025" },
+  "2411395": { nome: "Ana Luiza de Jesus Oliveira", anoIngresso: "2025" },
+  "2412015": { nome: "Bianca Janine Ribeiro", anoIngresso: "2025" },
+  "2411079": { nome: "Enzo Borges Ribeiro dos Santos", anoIngresso: "2025" },
+  "2411394": { nome: "Gabriel Alves Lima de Souza", anoIngresso: "2025" },
+  "2411650": { nome: "Heitor de Oliveira Gomes dos Santos", anoIngresso: "2025" },
+  "2411402": { nome: "Isabella Desidério Fragoso", anoIngresso: "2025" },
+  "2411396": { nome: "Jhenniffer Gabriella Prado Rodrigues", anoIngresso: "2025" },
+  "2411404": { nome: "João Victor Rosa Teixeira", anoIngresso: "2025" },
+  "060229":  { nome: "João Vitor Dias Domingues", anoIngresso: "2025" },
+  "2411374": { nome: "Juliana Silverio de Godoi", anoIngresso: "2025" },
+  "2412147": { nome: "Lais Maria Bagalhi", anoIngresso: "2025" },
+  "2411094": { nome: "Larissa Aparecida Santos Souza", anoIngresso: "2025" },
+  "2410442": { nome: "Letícia de Camargo", anoIngresso: "2025" },
+  "2411651": { nome: "Marcos José Batista", anoIngresso: "2025" },
+  "2411857": { nome: "Maria Eduarda de Oliveira Mazza", anoIngresso: "2025" },
+  "2411399": { nome: "Maria Eduarda Medeiros Palugan", anoIngresso: "2025" },
+  "2411511": { nome: "Maria Isabel Ribeiro Palma", anoIngresso: "2025" },
+  "2411400": { nome: "Ramon Henrique Camargo Martins", anoIngresso: "2025" },
+  "058567":  { nome: "Victoria Godoy Inocêncio", anoIngresso: "2025" },
+  // Turma 2024 — a adicionar
+  // Turma 2023
+  "058986":  { nome: "Adilton de Jesus Pinheiro Alves", anoIngresso: "2023" },
+  "060149":  { nome: "Bruna Cristina Salvador Marchetto", anoIngresso: "2023" },
+  "059135":  { nome: "Giovanna Livia de Andrade Alberini", anoIngresso: "2023" },
+  "060148":  { nome: "Gustavo Luiz Esponquiado", anoIngresso: "2023" },
+  "060275":  { nome: "Isabella da Silva Lourenço", anoIngresso: "2023" },
+  "2320030": { nome: "João Pedro Nogueira Calil Fadel", anoIngresso: "2023" },
+  "060071":  { nome: "Julia Amaro Teodoro", anoIngresso: "2023" },
+  "058993":  { nome: "Kechiman Augusto Taiete de Oliveira", anoIngresso: "2023" },
+  "2410929": { nome: "Leonardo Balsan", anoIngresso: "2023" },
+  "058975":  { nome: "Luiz Gonzaga Gonçalves Junior", anoIngresso: "2023" },
+  "059107":  { nome: "Luiz Miguel Garcia de Moraes", anoIngresso: "2023" },
+  "056254":  { nome: "Mayara Arca Alvarenga", anoIngresso: "2023" },
+  "060128":  { nome: "Maynara Crepaldi Ribeiro", anoIngresso: "2023" },
+  "060092":  { nome: "Pedro Lucas Cardoso", anoIngresso: "2023" },
+  "060373":  { nome: "Vitor Trench de Oliveira", anoIngresso: "2023" },
+  "059075":  { nome: "Yasmin Aparecida Pedroso Pereira", anoIngresso: "2023" },
+};
+
+const MAPA_TIPO_IMPORT = {
+  'eventos e palestras': 'Participação em eventos e palestras',
+  'evento e palestra': 'Participação em eventos e palestras',
+  'curso de extensão': 'Cursos de Extensão',
+  'cursos de extensão': 'Cursos de Extensão',
+  'curso a distancia': 'Cursos de Extensão',
+  'curso a distância': 'Cursos de Extensão',
+  'estagio extracurricular': 'Estágio extracurricular',
+  'estágio extracurricular': 'Estágio extracurricular',
+  'extracurricular': 'Estágio extracurricular',
+  'vivencia extracurricular': 'Estágio extracurricular',
+  'vivência extracurricular': 'Estágio extracurricular',
+  'viagem ou visita técnica': 'Viagens ou Visitas Técnicas',
+  'viagens ou visitas técnicas': 'Viagens ou Visitas Técnicas',
+  'visita técnica': 'Viagens ou Visitas Técnicas',
+  'visita tecnica': 'Viagens ou Visitas Técnicas',
+  'apresentação de trabalho': 'Apresentação de trabalhos em eventos científicos',
+  'apresentação de trabalhos': 'Apresentação de trabalhos em eventos científicos',
+  'artigo publicado': 'Artigos Publicados',
+  'artigos publicados': 'Artigos Publicados',
+  'monitoria': 'Monitoria',
+  'pesquisa institucional': 'Pesquisa Institucional',
+  'disciplinas optativas': 'Disciplinas Optativas em outros cursos',
+  'concursos de monografias': 'Concursos de Monografias',
+};
+
+function parseDataExcel(v){
+  if(v == null) return '';
+  if(typeof v === 'number'){
+    const d = XLSX.SSF.parse_date_code(v);
+    if(d) return String(d.y) + '-' + String(d.m).padStart(2,'0') + '-' + String(d.d).padStart(2,'0');
+  }
+  return String(v).trim();
+}
+
+const root = document.getElementById('root');
+let state = {
+  screen: 'login', // login | aluno | coordenador
+  role: 'aluno',
+  alunoTab: 'enviar', // enviar | minhashoras
+  coordTab: 'pendentes', // pendentes | todos
+  matricula: '',
+  nome: '',
+  submissoes: [],
+  loading: true,
+  toast: null,
+  modalItem: null,
+  modalMotivo: '',
+  modalCargaReconhecida: '',
+  loginErr: '',
+  coordSenhaInput: '',
+  filtroStatus: 'todos',
+  exportFiltro: 'todos',
+  filtroAnoIngresso: '',
+  filtroAnoTodos: '',
+  anoIngresso: '',
+};
+
+function setState(patch){ state = {...state, ...patch}; render(); }
+function showToast(msg){ setState({toast: msg}); setTimeout(()=>{ if(state.toast===msg) setState({toast:null}); }, 3000); }
+
+function uid(){ return 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
+
+async function loadSubmissoes(){
+  try{
+    const snap = await db.collection('submissoes').orderBy('timestamp','desc').get();
+    const items = snap.docs.map(d => ({id:d.id, ...d.data()}));
+    setState({submissoes: items, loading:false});
+  }catch(e){
+    console.error(e);
+    setState({submissoes:[], loading:false});
+  }
+}
+
+async function salvarSubmissao(item){
+  const ref = item.id ? db.collection('submissoes').doc(item.id) : db.collection('submissoes').doc();
+  const id = ref.id;
+  await ref.set({...item, id});
+  return id;
+}
+
+async function atualizarSubmissao(id, patch){
+  await db.collection('submissoes').doc(id).update(patch);
+}
+
+async function uploadPdf(file, submissaoId){
+  const ref = fbStorage.ref().child('comprovantes/' + submissaoId + '/' + file.name);
+  await ref.put(file);
+  return await ref.getDownloadURL();
+}
+
+function normalizar(str){
+  return String(str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+function alunoKey(s){
+  if(s.matricula && String(s.matricula).trim()) return 'm:' + String(s.matricula).trim();
+  return 'n:' + normalizar(s.nome);
+}
+
+function resolverAlunoCadastrado(s){
+  // Se já tem matrícula cadastrada, retorna direto
+  if(s.matricula && String(s.matricula).trim()){
+    return ALUNOS_CADASTRADOS[String(s.matricula).trim()] || null;
+  }
+  // Se não tem matrícula, tenta cruzar pelo nome
+  const nomeNorm = normalizar(s.nome);
+  const mat = Object.keys(ALUNOS_CADASTRADOS).find(k => normalizar(ALUNOS_CADASTRADOS[k].nome) === nomeNorm);
+  return mat ? ALUNOS_CADASTRADOS[mat] : null;
+}
+
+function resolverAnoIngresso(s){
+  if(s.anoIngresso) return s.anoIngresso;
+  const cad = resolverAlunoCadastrado(s);
+  return cad ? cad.anoIngresso : '';
+}
+
+function resolverMatricula(s){
+  if(s.matricula && String(s.matricula).trim()) return String(s.matricula).trim();
+  const nomeNorm = normalizar(s.nome);
+  return Object.keys(ALUNOS_CADASTRADOS).find(k => normalizar(ALUNOS_CADASTRADOS[k].nome) === nomeNorm) || '';
+}
+
+function pertenceAoAluno(s, matricula, nome){
+  // Registro com matrícula preenchida: compara pela matrícula
+  if(s.matricula && String(s.matricula).trim()){
+    return String(s.matricula).trim() === String(matricula).trim();
+  }
+  // Registro sem matrícula (importado da planilha): compara pelo nome (sem acento, minúsculo)
+  const normalizar = str => str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+  return normalizar(s.nome||'') === normalizar(nome||'');
+}
+
+function cappedHoursByCategory(submissoes, matricula, nome){
+  const aprovados = submissoes.filter(s => pertenceAoAluno(s, matricula, nome) && s.status === 'aprovado');
+  const byCat = {};
+  CATEGORIAS.forEach(c => byCat[c.nome] = 0);
+  aprovados.forEach(s => {
+    const carga = Number(s.cargaReconhecida != null ? s.cargaReconhecida : s.cargaHoraria) || 0;
+    byCat[s.tipo] = (byCat[s.tipo] || 0) + carga;
+  });
+  CATEGORIAS.forEach(c => { byCat[c.nome] = Math.min(byCat[c.nome], c.teto); });
+  return byCat;
+}
+
+function cappedHoursByCategoryForGroup(submissoes, key){
+  const aprovados = submissoes.filter(s => s.status === 'aprovado' && alunoKey(s) === key);
+  const byCat = {};
+  CATEGORIAS.forEach(c => byCat[c.nome] = 0);
+  aprovados.forEach(s => {
+    const carga = Number(s.cargaReconhecida != null ? s.cargaReconhecida : s.cargaHoraria) || 0;
+    byCat[s.tipo] = (byCat[s.tipo] || 0) + carga;
+  });
+  CATEGORIAS.forEach(c => { byCat[c.nome] = Math.min(byCat[c.nome], c.teto); });
+  return byCat;
+}
+
+function totalHoras(byCat){
+  return Object.values(byCat).reduce((a,b)=>a+b,0);
+}
+
+function categoriasCompletas(byCat){
+  return Object.values(byCat).filter(v => v > 0).length;
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+// ---------- RENDER ----------
+function render(){
+  if(state.screen === 'login') return renderLogin();
+  root.innerHTML = '';
+  const wrap = document.createElement('div');
+
+  wrap.appendChild(renderTopbar());
+
+  if(state.loading){
+    const l = document.createElement('div');
+    l.className='loading';
+    l.textContent='Carregando dados...';
+    wrap.appendChild(l);
+    root.appendChild(wrap);
+    return;
+  }
+
+  if(state.screen === 'aluno') wrap.appendChild(renderAluno());
+  if(state.screen === 'coordenador') wrap.appendChild(renderCoordenador());
+
+  root.appendChild(wrap);
+
+  if(state.modalItem) root.appendChild(renderModal());
+  if(state.toast){
+    const t = document.createElement('div');
+    t.className='toast';
+    t.textContent = state.toast;
+    root.appendChild(t);
+  }
+}
+
+function renderTopbar(){
+  const bar = document.createElement('div');
+  bar.className='topbar';
+  bar.innerHTML = `
+    <div class="brand">
+      <div class="brand-mark">Z</div>
+      <div class="brand-text">
+        <div class="eyebrow">Eduvale · Zootecnia</div>
+        <h1>Atividades Complementares</h1>
+      </div>
+    </div>
+  `;
+  const btn = document.createElement('button');
+  btn.className='switch-role';
+  btn.textContent = state.screen === 'aluno' ? 'Sair' : 'Sair';
+  btn.onclick = () => setState({screen:'login', matricula:'', nome:'', coordSenhaInput:'', loginErr:''});
+  bar.appendChild(btn);
+  return bar;
+}
+
+function renderLogin(){
+  root.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className='login-wrap';
+  wrap.innerHTML = `
+    <div class="login-card">
+      <h2>Bem-vindo(a)!</h2>
+      <p class="sub">Este é o sistema exclusivo de compilação de horas complementares do curso de Zootecnia da <strong>Uneduvale</strong>. Selecione seu perfil de acesso para continuar.</p>
+      <div class="role-tabs">
+        <div class="role-tab ${state.role==='aluno'?'active':''}" id="tab-aluno">Sou aluno(a)</div>
+        <div class="role-tab ${state.role==='coordenador'?'active':''}" id="tab-coord">Sou coordenador(a)</div>
+      </div>
+      <div id="login-fields"></div>
+      <div class="err" id="login-err">${state.loginErr || ''}</div>
+      <button class="btn btn-primary" id="btn-entrar">Entrar</button>
+    </div>
+  `;
+  root.appendChild(wrap);
+
+  document.getElementById('tab-aluno').onclick = () => setState({role:'aluno', loginErr:''});
+  document.getElementById('tab-coord').onclick = () => setState({role:'coordenador', loginErr:''});
+
+  const fields = document.getElementById('login-fields');
+  if(state.role === 'aluno'){
+    fields.innerHTML = `
+      <label>Número de matrícula</label>
+      <input id="in-matricula" placeholder="Digite sua matrícula" value="${state.matricula}">
+    `;
+  } else {
+    fields.innerHTML = `
+      <label>Senha de coordenação</label>
+      <input id="in-senha" type="password" placeholder="Senha de acesso">
+    `;
+  }
+
+  document.getElementById('btn-entrar').onclick = async () => {
+    if(state.role === 'aluno'){
+      const matricula = document.getElementById('in-matricula').value.trim();
+      if(!matricula){ setState({loginErr:'Digite sua matrícula para continuar.'}); return; }
+      const aluno = ALUNOS_CADASTRADOS[matricula];
+      if(!aluno){ setState({loginErr:'Matrícula não encontrada. Verifique o número ou entre em contato com a coordenação.'}); return; }
+      setState({screen:'aluno', matricula, nome: aluno.nome, anoIngresso: aluno.anoIngresso, loginErr:'', loading:true, alunoTab:'enviar'});
+      await loadSubmissoes();
+    } else {
+      const senha = document.getElementById('in-senha').value;
+      if(senha !== SENHA_COORDENADOR){ setState({loginErr:'Senha incorreta.'}); return; }
+      setState({screen:'coordenador', loginErr:'', loading:true, coordTab:'pendentes'});
+      await loadSubmissoes();
+    }
+  };
+}
+
+// ---------- ALUNO ----------
+function renderAluno(){
+  const wrap = document.createElement('div');
+
+  const tabs = document.createElement('div');
+  tabs.className='nav-tabs';
+  const tabEnviar = document.createElement('div');
+  tabEnviar.className = 'nav-tab ' + (state.alunoTab==='enviar'?'active':'');
+  tabEnviar.textContent = 'Enviar atividade';
+  tabEnviar.onclick = () => setState({alunoTab:'enviar'});
+  const tabHoras = document.createElement('div');
+  tabHoras.className = 'nav-tab ' + (state.alunoTab==='minhashoras'?'active':'');
+  tabHoras.textContent = 'Minhas horas';
+  tabHoras.onclick = () => setState({alunoTab:'minhashoras'});
+  tabs.appendChild(tabEnviar);
+  tabs.appendChild(tabHoras);
+  wrap.appendChild(tabs);
+
+  const content = document.createElement('div');
+  if(state.alunoTab === 'enviar') content.appendChild(renderFormEnvio());
+  else content.appendChild(renderMinhasHoras());
+  wrap.appendChild(content);
+
+  return wrap;
+}
+
+function renderFormEnvio(){
+  const card = document.createElement('div');
+  card.className='card';
+  card.innerHTML = `
+    <h3>Nova atividade complementar</h3>
+    <p class="desc">Preencha os dados da atividade e anexe o PDF comprobatório. Após o envio, ela ficará pendente até a validação da coordenação.</p>
+    <div class="row2">
+      <div>
+        <label>Matrícula</label>
+        <input id="f-matricula" value="${state.matricula}" disabled style="background:#f4f4f2;color:var(--tinta-suave)">
+      </div>
+      <div>
+        <label>Nome do aluno</label>
+        <input id="f-nome" value="${state.nome}" disabled style="background:#f4f4f2;color:var(--tinta-suave)">
+      </div>
+    </div>
+    <div class="row2">
+      <div>
+        <label>Ano de ingresso</label>
+        <input id="f-anoing" value="${state.anoIngresso}" disabled style="background:#f4f4f2;color:var(--tinta-suave)">
+      </div>
+    </div>
+    <label>Tema da atividade</label>
+    <input id="f-tema" placeholder="Ex: Semana da Zootecnia">
+    <div class="row2">
+      <div>
+        <label>Data de início</label>
+        <input id="f-data-ini" type="date">
+      </div>
+      <div>
+        <label>Data de término</label>
+        <input id="f-data-fim" type="date">
+      </div>
+    </div>
+    <div class="row2">
+      <div>
+        <label>Local</label>
+        <input id="f-local" placeholder="Ex: Faculdade Eduvale">
+      </div>
+      <div>
+        <label>Carga horária (horas)</label>
+        <input id="f-carga" type="number" min="1" step="1" placeholder="Ex: 4">
+      </div>
+    </div>
+    <label>Tipo da atividade</label>
+    <select id="f-tipo">
+      <option value="">Selecione...</option>
+      ${CATEGORIAS.map(c=>`<option value="${c.nome}">${c.nome} (máx. ${c.teto}h)</option>`).join('')}
+    </select>
+    <label>Documento comprobatório (PDF)</label>
+    <div class="file-drop" id="f-drop">Clique para selecionar o arquivo PDF</div>
+    <input type="file" id="f-file" accept="application/pdf" style="display:none">
+    <div class="err" id="f-err"></div>
+    <button class="btn btn-primary" id="f-submit">Enviar atividade</button>
+  `;
+
+  let selectedFile = null;
+
+  {
+    const drop = card.querySelector('#f-drop');
+    const fileInput = card.querySelector('#f-file');
+    drop.onclick = () => fileInput.click();
+    fileInput.onchange = () => {
+      if(fileInput.files[0]){
+        selectedFile = fileInput.files[0];
+        drop.textContent = '📄 ' + selectedFile.name;
+        drop.classList.add('has-file');
+      }
+    };
+
+    card.querySelector('#f-submit').onclick = async () => {
+      const tema = card.querySelector('#f-tema').value.trim();
+      const dataIni = card.querySelector('#f-data-ini').value;
+      const dataFim = card.querySelector('#f-data-fim').value;
+      const local = card.querySelector('#f-local').value.trim();
+      const carga = card.querySelector('#f-carga').value;
+      const tipo = card.querySelector('#f-tipo').value;
+      const errEl = card.querySelector('#f-err');
+
+      if(!tema || !dataIni || !dataFim || !local || !carga || !tipo){
+        errEl.textContent = 'Preencha todos os campos antes de enviar.'; return;
+      }
+      if(!selectedFile){
+        errEl.textContent = 'Anexe o PDF comprobatório.'; return;
+      }
+      if(selectedFile.size > 4.5*1024*1024){
+        errEl.textContent = 'O arquivo é muito grande. Envie um PDF de até 4,5MB.'; return;
+      }
+      errEl.textContent = '';
+
+      const btn = card.querySelector('#f-submit');
+      btn.textContent = 'Enviando...'; btn.disabled = true;
+
+      try{
+        const id = db.collection('submissoes').doc().id;
+        const pdfUrl = await uploadPdf(selectedFile, id);
+        const item = {
+          id,
+          matricula: state.matricula,
+          nome: state.nome,
+          anoIngresso: state.anoIngresso || '',
+          tema, dataIni, dataFim, local,
+          cargaHoraria: Number(carga),
+          tipo,
+          pdfUrl,
+          pdfName: selectedFile.name,
+          status: 'pendente',
+          motivoRecusa: '',
+          cargaReconhecida: null,
+          timestamp: Date.now(),
+        };
+        await salvarSubmissao(item);
+        showToast('Atividade enviada com sucesso. Aguarde a validação.');
+        setState({alunoTab:'minhashoras', loading:true});
+        await loadSubmissoes();
+      }catch(e){
+        console.error(e);
+        errEl.textContent = 'Erro ao enviar. Tente novamente.';
+        btn.textContent = 'Enviar atividade'; btn.disabled = false;
+      }
+    };
+  }
+
+  return card;
+}
+
+function renderMinhasHoras(){
+  const frag = document.createElement('div');
+  const minhas = state.submissoes.filter(s => pertenceAoAluno(s, state.matricula, state.nome));
+  const byCat = cappedHoursByCategory(state.submissoes, state.matricula, state.nome);
+  const total = totalHoras(byCat);
+  const numCat = categoriasCompletas(byCat);
+  const pct = Math.min(100, Math.round((total/HORAS_MINIMAS)*100));
+
+  const stats = document.createElement('div');
+  stats.className='stat-grid';
+  stats.innerHTML = `
+    <div class="stat-box">
+      <div class="stat-num">${total}h</div>
+      <div class="stat-label">Horas validadas (de ${HORAS_MINIMAS}h)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">${Math.max(0, HORAS_MINIMAS-total)}h</div>
+      <div class="stat-label">Horas faltantes</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">${numCat}/${MIN_CATEGORIAS}</div>
+      <div class="stat-label">Categorias mínimas atingidas</div>
+    </div>
+  `;
+  frag.appendChild(stats);
+
+  const progressCard = document.createElement('div');
+  progressCard.className='card';
+  progressCard.innerHTML = `
+    <h3>Progresso geral</h3>
+    <p class="desc">Cada categoria conta até o teto de horas estabelecido pelo curso. ${numCat < MIN_CATEGORIAS ? `Você ainda precisa de pelo menos ${MIN_CATEGORIAS - numCat} categoria(s) diferente(s) com horas aprovadas.` : 'Requisito de categorias mínimas atingido.'}</p>
+    <div class="bar-track"><div class="bar-fill ${total>=HORAS_MINIMAS?'ok':''}" style="width:${pct}%"></div></div>
+    <div class="small-note">${pct}% do total exigido</div>
+    <div style="margin-top:20px" class="cat-list">
+      ${CATEGORIAS.map(c => {
+        const v = byCat[c.nome] || 0;
+        const w = Math.round((v/c.teto)*100);
+        return `<div class="cat-row">
+          <div class="cat-name">${c.nome}</div>
+          <div class="cat-bar"><div class="cat-bar-fill" style="width:${w}%"></div></div>
+          <div class="cat-vals">${v}/${c.teto}h</div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+  frag.appendChild(progressCard);
+
+  const histCard = document.createElement('div');
+  histCard.className='card';
+  histCard.innerHTML = `<h3>Histórico de envios</h3><p class="desc">Todas as atividades que você já enviou.</p>`;
+  if(minhas.length === 0){
+    histCard.innerHTML += `<div class="empty"><div class="ico">📭</div>Você ainda não enviou nenhuma atividade.</div>`;
+  } else {
+    const table = document.createElement('table');
+    table.innerHTML = `
+      <thead><tr><th>Tema</th><th>Tipo</th><th>Carga</th><th>Status</th></tr></thead>
+      <tbody>
+        ${minhas.map(s => `
+          <tr>
+            <td>${s.tema}<br><span style="color:var(--tinta-suave);font-size:11.5px">${s.local}</span></td>
+            <td>${s.tipo}</td>
+            <td>${s.status==='aprovado' && s.cargaReconhecida != null ? s.cargaReconhecida : s.cargaHoraria}h${s.status==='aprovado' && s.cargaReconhecida != null && s.cargaReconhecida !== s.cargaHoraria ? ' <span style="color:var(--tinta-suave);font-size:11px">(ajustada)</span>' : ''}</td>
+            <td><span class="badge badge-${s.status}">${s.status}</span>${s.status==='recusado' && s.motivoRecusa ? `<div style="font-size:11px;color:var(--tinta-suave);margin-top:4px">${s.motivoRecusa}</div>` : ''}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    `;
+    histCard.appendChild(table);
+  }
+  frag.appendChild(histCard);
+
+  return frag;
+}
+
+function renderImportarCoord(){
+  const card = document.createElement('div');
+  card.className='card';
+  card.innerHTML = `
+    <h3>Importar planilha já preenchida</h3>
+    <p class="desc">Envie um arquivo .xlsx com abas contendo as colunas: Nome do Aluno, Tema, Data, Local, Carga Horária e Tipo da Atividade. As linhas serão importadas como atividades já <b>aprovadas</b>, sem matrícula preenchida (você adiciona depois manualmente) e sem PDF anexado.</p>
+    <div class="file-drop" id="imp-drop">Clique para selecionar o arquivo .xlsx</div>
+    <input type="file" id="imp-file" accept=".xlsx,.xls" style="display:none">
+    <div id="imp-status" class="small-note"></div>
+  `;
+
+  const drop = card.querySelector('#imp-drop');
+  const fileInput = card.querySelector('#imp-file');
+  const status = card.querySelector('#imp-status');
+  drop.onclick = () => fileInput.click();
+
+  fileInput.onchange = async () => {
+    const file = fileInput.files[0];
+    if(!file) return;
+    status.textContent = 'Lendo planilha...';
+    try{
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, {type:'array', cellDates:false});
+      let importados = 0, semHoras = 0, semTipo = [];
+      const sheetNames = wb.SheetNames.filter(n => /ingress/i.test(n) || /atividade/i.test(n));
+      const alvo = sheetNames.length ? sheetNames : wb.SheetNames;
+
+      for(const sn of alvo){
+        const ws = wb.Sheets[sn];
+        const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:null});
+        let nomeAtual = null;
+        for(let i=1;i<rows.length;i++){
+          const r = rows[i];
+          if(!r || r.length === 0) continue;
+          const [nome, tema, data, local, carga, tipo] = r;
+          if(nome && String(nome).trim().toUpperCase() === 'TOTAL') continue;
+          if(nome) nomeAtual = String(nome).trim();
+          if(!tema || !nomeAtual) continue;
+          let cargaNum = typeof carga === 'number' ? carga : parseFloat(String(carga||'').replace(',','.'));
+          if(!cargaNum || cargaNum <= 0){ semHoras++; continue; }
+          const tipoKey = String(tipo||'').trim().toLowerCase();
+          const tipoMapeado = MAPA_TIPO_IMPORT[tipoKey];
+          if(!tipoMapeado){ semTipo.push(String(tema)); continue; }
+
+          const item = {
+            id: uid(),
+            matricula: '',
+            nome: nomeAtual,
+            tema: String(tema).trim(),
+            dataIni: parseDataExcel(data),
+            dataFim: parseDataExcel(data),
+            local: local ? String(local).trim() : '',
+            cargaHoraria: cargaNum,
+            tipo: tipoMapeado,
+            pdfUrl: '',
+            pdfName: '',
+            status: 'aprovado',
+            motivoRecusa: '',
+            cargaReconhecida: cargaNum,
+            timestamp: Date.now(),
+          };
+          await salvarSubmissao(item);
+          importados++;
+        }
+      }
+
+      let msg = `Importação concluída: ${importados} atividade(s) adicionada(s) como aprovadas.`;
+      if(semHoras) msg += ` ${semHoras} linha(s) ignorada(s) por carga horária ausente ou inválida.`;
+      if(semTipo.length) msg += ` ${semTipo.length} linha(s) com tipo de atividade não reconhecido (não importadas) — confira: ${semTipo.slice(0,5).join('; ')}${semTipo.length>5?'...':''}`;
+      status.textContent = msg;
+      showToast('Planilha importada com sucesso.');
+      setState({loading:true});
+      await loadSubmissoes();
+    }catch(e){
+      status.textContent = 'Erro ao ler a planilha. Confira o formato do arquivo.';
+    }
+  };
+
+  return card;
+}
+
+function renderExportarCoord(){
+  const card = document.createElement('div');
+  card.className='card';
+  const total = state.submissoes.length;
+  card.innerHTML = `
+    <h3>Baixar planilha com os dados enviados</h3>
+    <p class="desc">Gera um arquivo .xlsx com todas as atividades cadastradas no sistema (matrícula, nome, tema, datas, local, carga horária, tipo e status), sem os documentos PDF anexados.</p>
+    <div class="filter-bar">
+      <div class="chip ${state.exportFiltro==='todos'||!state.exportFiltro?'active':''}" data-f="todos">Todos os status</div>
+      <div class="chip ${state.exportFiltro==='aprovado'?'active':''}" data-f="aprovado">Somente aprovados</div>
+      <div class="chip ${state.exportFiltro==='pendente'?'active':''}" data-f="pendente">Somente pendentes</div>
+      <div class="chip ${state.exportFiltro==='recusado'?'active':''}" data-f="recusado">Somente recusados</div>
+    </div>
+    <p class="small-note">${total} atividade(s) cadastrada(s) no total.</p>
+    <button class="btn btn-gold" id="exp-btn" style="margin-top:8px">Baixar planilha (.xlsx)</button>
+    <div id="exp-status" class="small-note"></div>
+  `;
+
+  card.querySelectorAll('.chip').forEach(ch => {
+    ch.onclick = () => setState({coordTab:'exportar', exportFiltro: ch.dataset.f});
+  });
+
+  card.querySelector('#exp-btn').onclick = () => {
+    const filtro = state.exportFiltro || 'todos';
+    let lista = state.submissoes;
+    if(filtro !== 'todos') lista = lista.filter(s => s.status === filtro);
+    if(lista.length === 0){
+      card.querySelector('#exp-status').textContent = 'Nenhuma atividade encontrada para esse filtro.';
+      return;
+    }
+    const linhas = lista.map(s => ({
+      'Matrícula': s.matricula || '',
+      'Nome do Aluno': s.nome,
+      'Ano de Ingresso': s.anoIngresso || '',
+      'Tema': s.tema,
+      'Data Início': s.dataIni,
+      'Data Fim': s.dataFim,
+      'Local': s.local,
+      'Carga Horária Solicitada': s.cargaHoraria,
+      'Carga Horária Reconhecida': s.cargaReconhecida != null ? s.cargaReconhecida : '',
+      'Tipo da Atividade': s.tipo,
+      'Status': s.status,
+      'Motivo da Recusa': s.motivoRecusa || '',
+    }));
+    const ws = XLSX.utils.json_to_sheet(linhas);
+    ws['!cols'] = [{wch:12},{wch:28},{wch:32},{wch:12},{wch:12},{wch:22},{wch:14},{wch:16},{wch:32},{wch:12},{wch:28}];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Atividades');
+    const dataStr = new Date().toISOString().slice(0,10);
+    XLSX.writeFile(wb, `atividades_complementares_${dataStr}.xlsx`);
+    showToast('Planilha gerada com sucesso.');
+  };
+
+  return card;
+}
+
+// ---------- COORDENADOR ----------
+function renderCoordenador(){
+  const wrap = document.createElement('div');
+
+  const tabs = document.createElement('div');
+  tabs.className='nav-tabs';
+  const pendentesCount = state.submissoes.filter(s=>s.status==='pendente').length;
+  const ctPend = document.createElement('div');
+  ctPend.className = 'nav-tab ' + (state.coordTab==='pendentes'?'active':'');
+  ctPend.textContent = 'Pendentes' + (pendentesCount>0 ? ` (${pendentesCount})` : '');
+  ctPend.onclick = () => setState({coordTab:'pendentes'});
+  const ctTodos = document.createElement('div');
+  ctTodos.className = 'nav-tab ' + (state.coordTab==='todos'?'active':'');
+  ctTodos.textContent = 'Todos os envios';
+  ctTodos.onclick = () => setState({coordTab:'todos'});
+  const ctAlunos = document.createElement('div');
+  ctAlunos.className = 'nav-tab ' + (state.coordTab==='alunos'?'active':'');
+  ctAlunos.textContent = 'Progresso por aluno';
+  ctAlunos.onclick = () => setState({coordTab:'alunos'});
+  const ctImportar = document.createElement('div');
+  ctImportar.className = 'nav-tab ' + (state.coordTab==='importar'?'active':'');
+  ctImportar.textContent = 'Importar planilha';
+  ctImportar.onclick = () => setState({coordTab:'importar'});
+  const ctExportar = document.createElement('div');
+  ctExportar.className = 'nav-tab ' + (state.coordTab==='exportar'?'active':'');
+  ctExportar.textContent = 'Baixar planilha';
+  ctExportar.onclick = () => setState({coordTab:'exportar'});
+  tabs.appendChild(ctPend); tabs.appendChild(ctTodos); tabs.appendChild(ctAlunos); tabs.appendChild(ctImportar); tabs.appendChild(ctExportar);
+  wrap.appendChild(tabs);
+
+  const content = document.createElement('div');
+  if(state.coordTab === 'pendentes') content.appendChild(renderListaCoord(state.submissoes.filter(s=>s.status==='pendente')));
+  else if(state.coordTab === 'todos') content.appendChild(renderTodosCoord());
+  else if(state.coordTab === 'alunos') content.appendChild(renderAlunosCoord());
+  else if(state.coordTab === 'importar') content.appendChild(renderImportarCoord());
+  else content.appendChild(renderExportarCoord());
+  wrap.appendChild(content);
+
+  return wrap;
+}
+
+function renderTodosCoord(){
+  const wrap = document.createElement('div');
+
+  // Filtro por status
+  const filterBar = document.createElement('div');
+  filterBar.className='filter-bar';
+  filterBar.style.marginBottom='8px';
+  const opts = ['todos','pendente','aprovado','recusado'];
+  opts.forEach(o => {
+    const chip = document.createElement('div');
+    chip.className = 'chip ' + (state.filtroStatus===o?'active':'');
+    chip.textContent = o==='todos' ? 'Todos os status' : o.charAt(0).toUpperCase()+o.slice(1);
+    chip.onclick = () => setState({filtroStatus: o, coordTab:'todos'});
+    filterBar.appendChild(chip);
+  });
+  wrap.appendChild(filterBar);
+
+  // Filtro por ano de ingresso
+  const anosDisponiveis = [...new Set(
+    state.submissoes.map(s => s.anoIngresso || resolverAnoIngresso(s)).filter(Boolean)
+  )].sort((a,b) => b - a);
+
+  if(anosDisponiveis.length > 0){
+    const filterAno = document.createElement('div');
+    filterAno.className='filter-bar';
+    filterAno.style.marginBottom='16px';
+    const chipTodos = document.createElement('div');
+    chipTodos.className = 'chip ' + (!state.filtroAnoTodos ? 'active' : '');
+    chipTodos.textContent = 'Todos os anos';
+    chipTodos.onclick = () => setState({filtroAnoTodos: '', coordTab:'todos'});
+    filterAno.appendChild(chipTodos);
+    anosDisponiveis.forEach(ano => {
+      const chip = document.createElement('div');
+      chip.className = 'chip ' + (state.filtroAnoTodos == ano ? 'active' : '');
+      chip.textContent = ano;
+      chip.onclick = () => setState({filtroAnoTodos: ano, coordTab:'todos'});
+      filterAno.appendChild(chip);
+    });
+    wrap.appendChild(filterAno);
+  }
+
+  let lista = state.submissoes;
+  if(state.filtroStatus !== 'todos') lista = lista.filter(s => s.status === state.filtroStatus);
+  if(state.filtroAnoTodos){
+    lista = lista.filter(s => String(s.anoIngresso || resolverAnoIngresso(s)) === String(state.filtroAnoTodos));
+  }
+  wrap.appendChild(renderListaCoord(lista));
+  return wrap;
+}
+
+function renderListaCoord(lista){
+  const card = document.createElement('div');
+  card.className='card';
+  if(lista.length === 0){
+    card.innerHTML = `<div class="empty"><div class="ico">✅</div>Nenhum envio encontrado nesta visão.</div>`;
+    return card;
+  }
+  const table = document.createElement('table');
+  table.innerHTML = `
+    <thead><tr><th>Aluno</th><th>Ano</th><th>Tema</th><th>Tipo</th><th>Carga</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      ${lista.map(s => {
+        const mat = resolverMatricula(s);
+        const ano = resolverAnoIngresso(s);
+        return `
+        <tr>
+          <td>${s.nome}<br><span style="color:var(--tinta-suave);font-size:11px">${mat || 'sem matrícula'}</span></td>
+          <td>${ano || '—'}</td>
+          <td>${s.tema}</td>
+          <td>${s.tipo}</td>
+          <td>${s.cargaHoraria}h</td>
+          <td><span class="badge badge-${s.status}">${s.status}</span></td>
+          <td><button class="btn btn-ghost btn-sm" data-id="${s.id}">Ver</button></td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  `;
+  card.appendChild(table);
+  table.querySelectorAll('button[data-id]').forEach(b => {
+    b.onclick = () => {
+      const item = state.submissoes.find(s => s.id === b.dataset.id);
+      setState({modalItem: item, modalMotivo: item.motivoRecusa || '', modalCargaReconhecida: item.cargaReconhecida != null ? item.cargaReconhecida : item.cargaHoraria});
+    };
+  });
+  return card;
+}
+
+function renderAlunosCoord(){
+  const wrap = document.createElement('div');
+  const grupos = {};
+  state.submissoes.forEach(s => {
+    const key = alunoKey(s);
+    if(!grupos[key]) grupos[key] = s;
+  });
+  const keys = Object.keys(grupos);
+  if(keys.length === 0){
+    const card = document.createElement('div');
+    card.className='card';
+    card.innerHTML = `<div class="empty"><div class="ico">👥</div>Nenhum aluno enviou atividades ainda.</div>`;
+    wrap.appendChild(card);
+    return wrap;
+  }
+
+  // Filtro por ano de ingresso
+  const anosDisponiveis = [...new Set(
+    Object.values(grupos).map(s => resolverAnoIngresso(s)).filter(Boolean)
+  )].sort((a,b) => b - a);
+
+  const filtroBar = document.createElement('div');
+  filtroBar.className = 'filter-bar';
+  filtroBar.style.marginBottom = '16px';
+
+  const chipTodos = document.createElement('div');
+  chipTodos.className = 'chip ' + (!state.filtroAnoIngresso ? 'active' : '');
+  chipTodos.textContent = 'Todos os anos';
+  chipTodos.onclick = () => setState({coordTab:'alunos', filtroAnoIngresso: ''});
+  filtroBar.appendChild(chipTodos);
+
+  anosDisponiveis.forEach(ano => {
+    const chip = document.createElement('div');
+    chip.className = 'chip ' + (state.filtroAnoIngresso == ano ? 'active' : '');
+    chip.textContent = ano;
+    chip.onclick = () => setState({coordTab:'alunos', filtroAnoIngresso: ano});
+    filtroBar.appendChild(chip);
+  });
+  wrap.appendChild(filtroBar);
+
+  keys.sort((a,b) => grupos[a].nome.localeCompare(grupos[b].nome));
+  const keysFiltrados = state.filtroAnoIngresso
+    ? keys.filter(k => String(resolverAnoIngresso(grupos[k])) === String(state.filtroAnoIngresso))
+    : keys;
+
+  if(keysFiltrados.length === 0){
+    const card = document.createElement('div');
+    card.className='card';
+    card.innerHTML = `<div class="empty"><div class="ico">👥</div>Nenhum aluno encontrado para o ano selecionado.</div>`;
+    wrap.appendChild(card);
+    return wrap;
+  }
+
+  keysFiltrados.forEach(key => {
+    const sub = grupos[key];
+    const byCat = cappedHoursByCategoryForGroup(state.submissoes, key);
+    const total = totalHoras(byCat);
+    const numCat = categoriasCompletas(byCat);
+    const pct = Math.min(100, Math.round((total/HORAS_MINIMAS)*100));
+    const ok = total >= HORAS_MINIMAS && numCat >= MIN_CATEGORIAS;
+    const card = document.createElement('div');
+    card.className='card';
+    const matResolvida = resolverMatricula(sub);
+    const anoResolvido = resolverAnoIngresso(sub);
+    card.innerHTML = `
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+        <div>
+          <h3>${sub.nome} <span style="font-size:12px;color:var(--tinta-suave);font-weight:400">${matResolvida ? '— ' + matResolvida : '— sem matrícula'}${anoResolvido ? ' · ingresso ' + anoResolvido : ''}</span></h3>
+          <p class="desc">${total}h de ${HORAS_MINIMAS}h · ${numCat}/${MIN_CATEGORIAS} categorias ${ok ? '· <b style="color:var(--verde-medio)">Requisitos atingidos</b>' : ''}</p>
+        </div>
+        <button class="btn btn-danger btn-sm" data-key="${key}" data-nome="${sub.nome.replace(/"/g,'&quot;')}">Excluir aluno</button>
+      </div>
+      <div class="bar-track"><div class="bar-fill ${ok?'ok':''}" style="width:${pct}%"></div></div>
+    `;
+    wrap.appendChild(card);
+  });
+
+  wrap.querySelectorAll('button[data-key]').forEach(b => {
+    b.onclick = async () => {
+      const confirmado = confirm(`Excluir todas as atividades de "${b.dataset.nome}"? Essa ação não pode ser desfeita.`);
+      if(!confirmado) return;
+      const key = b.dataset.key;
+      const alvo = state.submissoes.filter(s => alunoKey(s) === key);
+      try{
+        b.disabled = true; b.textContent = 'Excluindo...';
+        for(const s of alvo){
+          await db.collection('submissoes').doc(s.id).delete();
+          if(s.pdfUrl){
+            try{ await fbStorage.refFromURL(s.pdfUrl).delete(); }catch(e){}
+          }
+        }
+        showToast('Aluno e suas atividades foram excluídos.');
+        setState({loading:true});
+        await loadSubmissoes();
+      }catch(e){
+        console.error(e);
+        showToast('Erro ao excluir. Tente novamente.');
+      }
+    };
+  });
+
+  return wrap;
+}
+
+function renderModal(){
+  const item = state.modalItem;
+  const bg = document.createElement('div');
+  bg.className='modal-bg';
+  bg.onclick = (e) => { if(e.target === bg) setState({modalItem:null}); };
+
+  const modal = document.createElement('div');
+  modal.className='modal';
+  modal.innerHTML = `
+    <h3>${item.tema}</h3>
+    <div class="field-view"><b>Aluno</b> ${item.nome} (${item.matricula})</div>
+    <div class="field-view"><b>Tipo</b> ${item.tipo}</div>
+    <div class="field-view"><b>Período</b> ${item.dataIni} a ${item.dataFim}</div>
+    <div class="field-view"><b>Local</b> ${item.local}</div>
+    <div class="field-view"><b>Carga solicitada</b> ${item.cargaHoraria}h</div>
+    <div class="field-view"><b>Status atual</b> <span class="badge badge-${item.status}">${item.status}</span></div>
+
+    ${item.pdfUrl ? `
+    <div class="pdf-header">
+      <span class="pdf-filename">📄 ${item.pdfName}</span>
+      <a class="dl-icon" href="${item.pdfUrl}" download="${item.pdfName}" target="_blank" title="Baixar PDF">⬇</a>
+    </div>
+    <iframe class="pdf-frame" src="${item.pdfUrl}"></iframe>
+    ` : `<div class="small-note" style="margin-top:14px">Sem PDF anexado (registro importado de planilha).</div>`}
+
+    <div style="margin-top:18px">
+      <label>Carga horária reconhecida</label>
+      <input id="m-carga" type="number" value="${state.modalCargaReconhecida}" min="0">
+      <label>Motivo (necessário se recusar)</label>
+      <textarea id="m-motivo" rows="2" placeholder="Ex: documento ilegível, carga horária divergente...">${state.modalMotivo}</textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="m-fechar">Fechar</button>
+      <button class="btn btn-danger btn-sm" id="m-recusar">Recusar</button>
+      <button class="btn btn-gold btn-sm" id="m-aprovar">Aprovar</button>
+    </div>
+  `;
+  bg.appendChild(modal);
+
+  modal.querySelector('#m-fechar').onclick = () => setState({modalItem:null});
+  modal.querySelector('#m-carga').oninput = (e) => { state.modalCargaReconhecida = e.target.value; };
+  modal.querySelector('#m-motivo').oninput = (e) => { state.modalMotivo = e.target.value; };
+
+  modal.querySelector('#m-aprovar').onclick = async () => {
+    const carga = Number(modal.querySelector('#m-carga').value);
+    const btnAprovar = modal.querySelector('#m-aprovar');
+    btnAprovar.disabled = true; btnAprovar.textContent = 'Aprovando...';
+
+    await atualizarSubmissao(item.id, {status:'aprovado', cargaReconhecida: carga, motivoRecusa:''});
+
+    // Tentar enviar PDF ao Google Drive se houver PDF e token disponível
+    if(item.pdfUrl){
+      if(!driveAccessToken){
+        // Solicitar autorização e aguardar token
+        if(driveTokenClient){
+          driveTokenClient.requestAccessToken();
+          // Aguardar até 10s pelo token, então tentar upload
+          await new Promise(resolve => {
+            let tentativas = 0;
+            const check = setInterval(async () => {
+              tentativas++;
+              if(driveAccessToken){
+                clearInterval(check);
+                const ok = await uploadPdfToDrive(item.pdfUrl, item.nome, item.pdfName);
+                if(ok) showToast('Atividade aprovada e PDF enviado para o Drive.');
+                else showToast('Atividade aprovada. Falha ao enviar pro Drive.');
+                resolve();
+              } else if(tentativas > 20){
+                clearInterval(check);
+                showToast('Atividade aprovada. Drive não autorizado, PDF não enviado.');
+                resolve();
+              }
+            }, 500);
+          });
+        } else {
+          showToast('Atividade aprovada. Configure o Google Drive nas credenciais para envio automático.');
+        }
+      } else {
+        const ok = await uploadPdfToDrive(item.pdfUrl, item.nome, item.pdfName);
+        if(ok) showToast('Atividade aprovada e PDF enviado para o Drive.');
+        else showToast('Atividade aprovada. Falha ao enviar pro Drive — tente novamente.');
+      }
+    } else {
+      showToast('Atividade aprovada (sem PDF anexado).');
+    }
+
+    setState({modalItem:null, loading:true});
+    await loadSubmissoes();
+  };
+  modal.querySelector('#m-recusar').onclick = async () => {
+    const motivo = modal.querySelector('#m-motivo').value.trim();
+    if(!motivo){ alert('Informe o motivo da recusa.'); return; }
+    await atualizarSubmissao(item.id, {status:'recusado', motivoRecusa: motivo});
+    showToast('Atividade recusada.');
+    setState({modalItem:null, loading:true});
+    await loadSubmissoes();
+  };
+
+  return bg;
+}
+
+render();
+</script>
+</body>
+</html>
