@@ -1395,4 +1395,93 @@ function renderModal(){
     <div class="field-view"><b>Período</b> ${item.dataIni} a ${item.dataFim}</div>
     <div class="field-view"><b>Local</b> ${item.local}</div>
     <div class="field-view"><b>Carga solicitada</b> ${item.cargaHoraria}h</div>
-    <div class="field-view"><b>Status atual</b> <span class="b
+    <div class="field-view"><b>Status atual</b> <span class="badge badge-${item.status}">${item.status}</span></div>
+
+    ${item.pdfUrl ? `
+    <div class="pdf-header">
+      <span class="pdf-filename">📄 ${item.pdfName}</span>
+      <a class="dl-icon" href="${item.pdfUrl}" download="${item.pdfName}" target="_blank" title="Baixar PDF">⬇</a>
+    </div>
+    <iframe class="pdf-frame" src="${item.pdfUrl}"></iframe>
+    ` : `<div class="small-note" style="margin-top:14px">Sem PDF anexado (registro importado de planilha).</div>`}
+
+    <div style="margin-top:18px">
+      <label>Carga horária reconhecida</label>
+      <input id="m-carga" type="number" value="${state.modalCargaReconhecida}" min="0">
+      <label>Motivo (necessário se recusar)</label>
+      <textarea id="m-motivo" rows="2" placeholder="Ex: documento ilegível, carga horária divergente...">${state.modalMotivo}</textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="m-fechar">Fechar</button>
+      <button class="btn btn-danger btn-sm" id="m-recusar">Recusar</button>
+      <button class="btn btn-gold btn-sm" id="m-aprovar">Aprovar</button>
+    </div>
+  `;
+  bg.appendChild(modal);
+
+  modal.querySelector('#m-fechar').onclick = () => setState({modalItem:null});
+  modal.querySelector('#m-carga').oninput = (e) => { state.modalCargaReconhecida = e.target.value; };
+  modal.querySelector('#m-motivo').oninput = (e) => { state.modalMotivo = e.target.value; };
+
+  modal.querySelector('#m-aprovar').onclick = async () => {
+    const carga = Number(modal.querySelector('#m-carga').value);
+    const btnAprovar = modal.querySelector('#m-aprovar');
+    btnAprovar.disabled = true; btnAprovar.textContent = 'Aprovando...';
+
+    await atualizarSubmissao(item.id, {status:'aprovado', cargaReconhecida: carga, motivoRecusa:''});
+
+    // Tentar enviar PDF ao Google Drive se houver PDF e token disponível
+    if(item.pdfUrl){
+      if(!driveAccessToken){
+        // Solicitar autorização e aguardar token
+        if(driveTokenClient){
+          driveTokenClient.requestAccessToken();
+          // Aguardar até 10s pelo token, então tentar upload
+          await new Promise(resolve => {
+            let tentativas = 0;
+            const check = setInterval(async () => {
+              tentativas++;
+              if(driveAccessToken){
+                clearInterval(check);
+                const ok = await uploadPdfToDrive(item.pdfUrl, item.nome, item.pdfName);
+                if(ok) showToast('Atividade aprovada e PDF enviado para o Drive.');
+                else showToast('Atividade aprovada. Falha ao enviar pro Drive.');
+                resolve();
+              } else if(tentativas > 20){
+                clearInterval(check);
+                showToast('Atividade aprovada. Drive não autorizado, PDF não enviado.');
+                resolve();
+              }
+            }, 500);
+          });
+        } else {
+          showToast('Atividade aprovada. Configure o Google Drive nas credenciais para envio automático.');
+        }
+      } else {
+        const ok = await uploadPdfToDrive(item.pdfUrl, item.nome, item.pdfName);
+        if(ok) showToast('Atividade aprovada e PDF enviado para o Drive.');
+        else showToast('Atividade aprovada. Falha ao enviar pro Drive — tente novamente.');
+      }
+    } else {
+      showToast('Atividade aprovada (sem PDF anexado).');
+    }
+
+    setState({modalItem:null, loading:true});
+    await loadSubmissoes();
+  };
+  modal.querySelector('#m-recusar').onclick = async () => {
+    const motivo = modal.querySelector('#m-motivo').value.trim();
+    if(!motivo){ alert('Informe o motivo da recusa.'); return; }
+    await atualizarSubmissao(item.id, {status:'recusado', motivoRecusa: motivo});
+    showToast('Atividade recusada.');
+    setState({modalItem:null, loading:true});
+    await loadSubmissoes();
+  };
+
+  return bg;
+}
+
+render();
+</script>
+</body>
+</html>
